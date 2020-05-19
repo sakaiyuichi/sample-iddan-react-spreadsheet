@@ -7,26 +7,18 @@
 > yarn add @material-ui/core
 ```
 
----
-
 ## GitHub
 
 https://github.com/iddan/react-spreadsheet
-
----
 
 ## 画面イメージ
 
 ![Image01](./Image01.png)
 
----
-
 ## 動作説明
 
 - 「値の表示」ボタン押下で、現在のスプレッドのデータが表示される
 - 商品SELECTを変更して、その行の単価にフォーカスを当てると、商品に対する単価が自動セットされる
-
----
 
 ## 問題点＆課題
 
