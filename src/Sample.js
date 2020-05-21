@@ -44,12 +44,12 @@ const SelectEdit = ({ getValue, cell, onChange }) => (
 // カスタムセルを用いる部分には DataViewer、DataEditor を指定する
 const initData = [
     [
-        {value: 10, oldValue: 10, DataViewer: SelectView, DataEditor: SelectEdit},
-        {value: 100, className: 'myNumber'},
+        {value: 10, oldValue: 10, DataViewer: SelectView, DataEditor: SelectEdit, name: 'item', row: 1, },
+        {value: 103, className: 'myNumber'},
         {value: '', className: 'myNumber'}
     ],
     [
-        {value: 20, oldValue: 20, DataViewer: SelectView, DataEditor: SelectEdit},
+        {value: 20, oldValue: 20, DataViewer: SelectView, DataEditor: SelectEdit, name: 'item', row: 2, },
         {value: 200, className: 'myNumber'},
         {value: '', className: 'myNumber'}
     ],
@@ -73,13 +73,19 @@ const Sample = () => {
     // ステートフック
     const [details, setDetails] = useState(initData)
 
+    const [commitValues, setCommitValues] = useState({
+        prevCell: {}, 
+        nextCell: {}, 
+        coords: {}, 
+    })
+
     // セルの変更時
     // 文字単位で変更時に呼ばれる
     // data : 変更後のスプレッド全体の配列
     const onChange = (data) => {
         data.map(dat => {
             if (dat[0].value !== dat[0].oldValue) {
-                dat[1].value = selectItems.filter(item => item.id == dat[0].value)[0].tanka
+                dat[1].value = selectItems.filter(item => item.id === dat[0].value)[0].tanka
                 dat[0].oldValue = dat[0].value
             }
         })
@@ -93,6 +99,11 @@ const Sample = () => {
     // nextVal : 変更後の値
     // coords : 移動先セルのX,Y位置（※変更されたセルではないので注意！）
     const onCellCommit = (prevVal, nextVal, coords) => {
+        setCommitValues({
+            prevCell: prevVal, 
+            nextCell: nextVal, 
+            coords, 
+        })
         // console.log(prevVal)
         // console.log(nextVal)
         // console.log(coords)
@@ -114,6 +125,10 @@ const Sample = () => {
             />
             <br />
             <Button variant="contained" color="primary" onClick={() => doShowValue()}>値の表示</Button>
+
+            <pre>
+                {JSON.stringify(commitValues, null, 2)}
+            </pre>
         </div>
     )
 }
